@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  programs.niri.enable = true; # info:programs.niri.enable 25.11
+  programs.niri.enable = true; # info:programs.niri.enable 26.05
 
   environment.systemPackages = with pkgs; [
     kitty

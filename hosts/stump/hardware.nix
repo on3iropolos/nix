@@ -9,11 +9,11 @@
   boot.kernelPackages = pkgs.linuxPackages;
   boot.blacklistedKernelModules = [ "nouveau" ];
 
-  hardware.cpu.intel.updateMicrocode = true; # info:hardware.cpu.intel.updateMicrocode 25.11
-  hardware.enableRedistributableFirmware = true; # info:hardware.enableRedistributableFirmware 25.11
+  hardware.cpu.intel.updateMicrocode = true; # info:hardware.cpu.intel.updateMicrocode 26.05
+  hardware.enableRedistributableFirmware = true; # info:hardware.enableRedistributableFirmware 26.05
   hardware.graphics = {
-    enable = true; # info:hardware.graphics.enable 25.11
-    enable32Bit = true; # info:hardware.graphics.enable32Bit 25.11
+    enable = true; # info:hardware.graphics.enable 26.05
+    enable32Bit = true; # info:hardware.graphics.enable32Bit 26.05
   };
 
   services.xserver.videoDrivers = [ "modesetting" ];

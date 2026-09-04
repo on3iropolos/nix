@@ -1,4 +1,4 @@
-# stump — Huawei MACH-WX9 · NixOS 25.11 stable wipe-install
+# stump — Huawei MACH-WX9 · NixOS 26.05 stable wipe-install
 
 Flake-based NixOS config: niri + DankMaterialShell (defaults only), LUKS + btrfs, iGPU-only. Complex items (NVIDIA offload, SOPS, impermanence, DMS extras, power tuning) are specced in `todo/` and intentionally **not** implemented.
 
@@ -15,7 +15,7 @@ Flake-based NixOS config: niri + DankMaterialShell (defaults only), LUKS + btrfs
 
 ## Install
 
-### 1. Boot the NixOS 25.11 minimal ISO
+### 1. Boot the NixOS 26.05 minimal ISO
 
 Flash it to USB, boot UEFI (SecureBoot off), then:
 
