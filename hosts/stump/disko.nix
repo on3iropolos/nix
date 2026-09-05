@@ -22,7 +22,9 @@
             content = {
               type = "luks";
               name = "crypted";
-              allowDiscards = true;
+              settings = {
+                allowDiscards = true;
+              };
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];

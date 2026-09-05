@@ -1,3 +1,9 @@
+disko:
+  nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#stump
+
+install:
+  nixos-install --flake .#stump --root /mnt --no-root-passwd
+
 switch:
   git add -A && sudo nixos-rebuild switch --flake .#stump
 

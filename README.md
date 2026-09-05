@@ -22,7 +22,9 @@ Flash it to USB, boot UEFI (SecureBoot off), then:
 ```bash
 nmtui    # connect wifi
 sudo -i
-nix --experimental-features "nix-command flakes" --version
+mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+nix --version
 ```
 
 ### 2. Clone + set password hash
