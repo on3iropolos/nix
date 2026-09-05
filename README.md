@@ -40,9 +40,9 @@ git add -A
 ### 3. Disko + install
 
 ```bash
-just disko       # destroy,format,mount --flake ".#stump"
+nix run github:nix-community/disko -- --mode destroy,format,mount --flake ".#stump"
 mount | grep /mnt     # expect /boot, /, /home, /nix
-just install     # nixos-install --root /mnt --no-root-passwd
+nixos-install --flake ".#stump" --root /mnt --no-root-passwd
 nixos-enter --root /mnt -c 'passwd on3i'   # skip if hashedPassword was set
 reboot                                     # pick stump in systemd-boot
 ```
@@ -74,9 +74,9 @@ sudo fstrim -Av
 Edit → check → commit. Always `git add` before rebuild; flakes evaluate the working tree.
 
 ```bash
-just check    # nix flake check
+git add -A && nix flake check
 nix fmt       # nixfmt-tree, defined in flake.nix
-just update   # nix flake update (bumps flake.lock, review diff)
+nix flake update   # bumps flake.lock, review diff
 ```
 
 Rules: never `push --force`, never commit secrets (`secrets/` is gitignored except `.gitkeep`). Unfinished work lives in `todo/` with a spec before implementation.
@@ -93,9 +93,9 @@ home/on3i/default.nix  todo/  pkgs/  secrets/  prompts/
 Apply config to this machine (`stump`). `switch` activates now, `boot` stages for next reboot.
 
 ```bash
-just switch   # git add + nixos-rebuild switch --flake ".#stump"
-just boot     # stage for next reboot, keep current running
-just gc       # garbage-collect old generations
+git add -A && sudo nixos-rebuild switch --flake ".#stump"   # activate now
+git add -A && sudo nixos-rebuild boot --flake ".#stump"     # stage for next reboot
+sudo nix-collect-garbage -d   # garbage-collect old generations
 nixos-rebuild switch --rollback   # proves fallback generation boots
 ```
 

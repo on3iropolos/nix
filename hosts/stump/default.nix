@@ -4,7 +4,10 @@
   time.timeZone = "America/Chicago";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nixpkgs.config.allowUnfree = false;
   system.stateVersion = "26.05";
 
@@ -20,7 +23,10 @@
   users.users.on3i = {
     isNormalUser = true;
     description = "on3i";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
     # Set at install: mkpasswd -m sha-512 > hashedPassword, or nixos-enter + passwd on3i
     # hashedPassword = "<mkpasswd -m sha-512>";
   };

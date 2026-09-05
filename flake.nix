@@ -17,28 +17,37 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, nixos-hardware, ... }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
-    nixosConfigurations.stump = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        disko.nixosModules.disko
-        home-manager.nixosModules.home-manager
-        nixos-hardware.nixosModules.common-cpu-intel
-        nixos-hardware.nixosModules.common-pc-laptop
-        nixos-hardware.nixosModules.common-pc-laptop-ssd
-        ./hosts/stump/default.nix
-        ./hosts/stump/disko.nix
-        ./hosts/stump/hardware.nix
-        ./modules/nixos/desktop.nix
-        ./modules/nixos/dms.nix
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "hm-bak";
-          home-manager.users.on3i = import ./home/on3i/default.nix;
-        }
-      ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      disko,
+      nixos-hardware,
+      ...
+    }:
+    {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      nixosConfigurations.stump = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          disko.nixosModules.disko
+          home-manager.nixosModules.home-manager
+          nixos-hardware.nixosModules.common-cpu-intel
+          nixos-hardware.nixosModules.common-pc-laptop
+          nixos-hardware.nixosModules.common-pc-laptop-ssd
+          ./hosts/stump/default.nix
+          ./hosts/stump/disko.nix
+          ./hosts/stump/hardware.nix
+          ./modules/nixos/desktop.nix
+          ./modules/nixos/dms.nix
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-bak";
+            home-manager.users.on3i = import ./home/on3i/default.nix;
+          }
+        ];
+      };
     };
-  };
 }

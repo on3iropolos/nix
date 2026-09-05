@@ -14,7 +14,10 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = [ "fmask=0077" "dmask=0077" ];
+              mountOptions = [
+                "fmask=0077"
+                "dmask=0077"
+              ];
             };
           };
           crypted = {
@@ -31,15 +34,24 @@
                 subvolumes = {
                   "@root" = {
                     mountpoint = "/";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
                   };
                   "@home" = {
                     mountpoint = "/home";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
                   };
                   "@nix" = {
                     mountpoint = "/nix";
-                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountOptions = [
+                      "compress=zstd"
+                      "noatime"
+                    ];
                   };
                 };
               };

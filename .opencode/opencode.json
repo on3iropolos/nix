@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md", "README.md", "prompts/nixos-stump-master-prompt.md"],
+  "formatter": false,
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "*disko*destroy*": "deny",
+      "nixos-install*": "deny",
+      "*push --force*": "deny",
+      "*secrets/*": "deny"
+    },
+    "edit": {
+      "*": "ask",
+      "*secrets/*": "deny"
+    }
+  },
+  "mcp": {
+    "nixos": {
+      "type": "local",
+      "command": ["mcp-nixos"],
+      "enabled": true
+    }
+  }
+}
