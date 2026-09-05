@@ -32,6 +32,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "hm-bak";
           home-manager.users.on3i = import ./home/on3i/default.nix;
         }
       ];

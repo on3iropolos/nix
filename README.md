@@ -57,7 +57,7 @@ dms doctor
 dms ipc call spotlight toggle
 ```
 
-Greeter → niri → DMS bar. `dms setup` generates `~/.config/niri/config.kdl` with the `dms/colors/layout` includes — never hand-write DMS binds.
+Greeter → niri → DMS bar. `~/.config/niri/config.kdl` is flake-managed (`home/on3i/niri.nix`); `dms setup` generates only the `dms/*.kdl` fragments it includes — never hand-write DMS binds. Set display scale (1.5 on stump) in DMS Settings → Displays; it lives in DMS-owned `dms/outputs.kdl`.
 
 ### 5. Verify hardware
 
