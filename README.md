@@ -15,9 +15,11 @@ Flake-based NixOS config: niri + DankMaterialShell (defaults only), LUKS + btrfs
 
 ## Install
 
-### 1. Boot the NixOS 26.05 minimal ISO
+Fresh wipe-install from the NixOS 26.05 minimal ISO. Destructive: wipes `nvme0n1`.
 
-Flash it to USB, boot UEFI (SecureBoot off), then:
+### 1. Boot ISO
+
+Flash to USB, boot UEFI (SecureBoot off), then:
 
 ```bash
 nmtui    # connect wifi
@@ -35,36 +37,20 @@ mkpasswd -m sha-512   # paste into hosts/stump/default.nix as hashedPassword
 git add -A
 ```
 
-### 3. Disko — destructive, wipes `nvme0n1`
+### 3. Disko + install
 
 ```bash
-nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#stump
+just disko       # destroy,format,mount --flake ".#stump"
 mount | grep /mnt     # expect /boot, /, /home, /nix
-```
-
-### 4. Install + first boot
-
-```bash
-nixos-install --flake .#stump --root /mnt --no-root-passwd
+just install     # nixos-install --root /mnt --no-root-passwd
 nixos-enter --root /mnt -c 'passwd on3i'   # skip if hashedPassword was set
 reboot                                     # pick stump in systemd-boot
+```
+
+### 4. First boot + DMS setup (mandatory, in order)
+
+```bash
 nixos-rebuild switch --flake .#stump
-```
-
-### 5. Verify hardware + rollback path
-
-```bash
-wpctl status                 # audio
-bluetoothctl power on        # bt
-brightnessctl s 10%          # backlight
-systemctl suspend            # resume works
-sudo fstrim -Av
-nixos-rebuild switch --rollback   # proves fallback generation boots
-```
-
-### 6. DMS first-run (mandatory, in order)
-
-```bash
 dms setup
 systemctl --user status dms
 dms doctor
@@ -73,23 +59,44 @@ dms ipc call spotlight toggle
 
 Greeter → niri → DMS bar. `dms setup` generates `~/.config/niri/config.kdl` with the `dms/colors/layout` includes — never hand-write DMS binds.
 
-## Day-to-day
+### 5. Verify hardware
 
 ```bash
-just switch   # git add + nixos-rebuild switch
-just boot     # stage for next reboot, keep current running
-just check    # nix flake check
-just update   # nix flake update
-just gc       # garbage-collect
+wpctl status                 # audio
+bluetoothctl power on        # bt
+brightnessctl s 10%          # backlight
+systemctl suspend            # resume works
+sudo fstrim -Av
 ```
 
-Always `git add` before rebuild; never `push --force`, never commit secrets.
+## Develop
 
-## Layout
+Edit → check → commit. Always `git add` before rebuild; flakes evaluate the working tree.
+
+```bash
+just check    # nix flake check
+nix fmt       # nixfmt-tree, defined in flake.nix
+just update   # nix flake update (bumps flake.lock, review diff)
+```
+
+Rules: never `push --force`, never commit secrets (`secrets/` is gitignored except `.gitkeep`). Unfinished work lives in `todo/` with a spec before implementation.
+
+Layout:
 
 ```
 flake.nix  hosts/stump/{default,hardware,disko}.nix  modules/nixos/{desktop,dms}.nix
 home/on3i/default.nix  todo/  pkgs/  secrets/  prompts/
+```
+
+## Deploy
+
+Apply config to this machine (`stump`). `switch` activates now, `boot` stages for next reboot.
+
+```bash
+just switch   # git add + nixos-rebuild switch --flake ".#stump"
+just boot     # stage for next reboot, keep current running
+just gc       # garbage-collect old generations
+nixos-rebuild switch --rollback   # proves fallback generation boots
 ```
 
 `dms doctor` log: run post-install, paste here.
