@@ -1,14 +1,15 @@
+# Destructive: wipes nvme0n1 via disko (".#stump" quoted so # is not a comment)
 disko:
-  nix run github:nix-community/disko -- --mode destroy,format,mount --flake .#stump
+  nix run github:nix-community/disko -- --mode destroy,format,mount --flake ".#stump"
 
 install:
-  nixos-install --flake .#stump --root /mnt --no-root-passwd
+  nixos-install --flake ".#stump" --root /mnt --no-root-passwd
 
 switch:
-  git add -A && sudo nixos-rebuild switch --flake .#stump
+  git add -A && sudo nixos-rebuild switch --flake ".#stump"
 
 boot:
-  git add -A && sudo nixos-rebuild boot --flake .#stump
+  git add -A && sudo nixos-rebuild boot --flake ".#stump"
 
 check:
   nix flake check
