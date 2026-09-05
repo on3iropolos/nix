@@ -6,10 +6,10 @@
     kitty
     brightnessctl
     pavucontrol
-    vscodium # 1.126.04524
+    vscodium # 1.116.02821
     bitwarden-desktop # 2026.8.0
     brave # 1.94.117, MPL-2.0
-    git # 2.55.0
-    opencode # 1.18.25
+    git # 2.54.0
+    opencode # 1.15.10
   ];
 }
